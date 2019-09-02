@@ -1,0 +1,7 @@
+##ignore this folder##
+/.idea/
+
+build/
+
+##ignore this file##
+*.iml
