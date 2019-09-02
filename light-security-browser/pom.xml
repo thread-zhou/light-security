@@ -12,4 +12,11 @@
     <artifactId>light-security-browser</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.light.security</groupId>
+            <artifactId>light-security-core</artifactId>
+            <version>${light.security.version}</version>
+        </dependency>
+    </dependencies>
 </project>
