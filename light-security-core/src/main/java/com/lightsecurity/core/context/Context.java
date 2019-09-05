@@ -1,7 +1,5 @@
 package com.lightsecurity.core.context;
 
-import java.util.Map;
-
 /**
  * 容器基础接口
  * @param <K>
@@ -44,6 +42,7 @@ public interface Context<K, V> {
      * 获取到真实容器对象，默认实现为ConcurrentHashMap<K, V>
      * @return
      */
-    Map<K, V> getContext();
+//    Map<K, V> getContext();
+
 
 }

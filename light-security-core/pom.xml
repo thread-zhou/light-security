@@ -11,5 +11,65 @@
 
     <artifactId>light-security-core</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <!-- 加入servlet环境 -->
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <!--<version>4.0.1</version>-->
+            <scope>provided</scope>
+        </dependency>
+
+
+
+        <!-- 日志模块 start -->
+        <!-- 日志接口 -->
+        <!--<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>-->
+
+        <!-- 日志接口实现 -->
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+        <!--<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>-->
+        <!-- 日志模块 end -->
+
+
+
+        <!-- 必须指定version -->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/org.springframework.beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.beans</artifactId>
+            <version>3.2.2.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+
+    </dependencies>
+
 
 </project>

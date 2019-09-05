@@ -75,8 +75,8 @@ public abstract class AbstractContext<K, V> implements Context<K, V> {
         return context.size();
     }
 
-    @Override
+   /* @Override
     public ConcurrentHashMap<K, V> getContext() {
         return context;
-    }
+    }*/
 }
