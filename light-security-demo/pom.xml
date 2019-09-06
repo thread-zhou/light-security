@@ -11,5 +11,29 @@
 
     <artifactId>light-security-demo</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.light.security</groupId>
+            <artifactId>light-security-browser</artifactId>
+            <version>${light.security.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <finalName>light-security-demo</finalName>
+    </build>
 
 </project>

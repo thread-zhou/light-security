@@ -22,6 +22,24 @@ public abstract class GenericFilter implements Filter, FilterConfig, Initializin
 
     protected int weight;//当前过滤器的权重
 
+    protected String[] processUrl;//当前过滤器作用的url
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String[] getProcessUrl() {
+        return processUrl;
+    }
+
+    public void setProcessUrl(String[] processUrl) {
+        this.processUrl = processUrl;
+    }
+
     /**
      * 可以自定义实现一些装配工作
      */

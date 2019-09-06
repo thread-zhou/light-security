@@ -4,6 +4,7 @@ import com.lightsecurity.core.context.HttpRequestResponseHolder;
 import com.lightsecurity.core.context.SecurityContext;
 import com.lightsecurity.core.context.SecurityContextHolder;
 import com.lightsecurity.core.context.SecurityContextRepository;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,13 @@ public class SecurityContextPersistenceFilter extends GenericFilter {
 
             //Crucial removal of SecurityContextHolder contents - do this before anything
             //至关重要的操作,将ThreadLocal中的数据清除, 听说可以避免一些问题
+            /**
+             * 节选自：https://www.iteye.com/blog/fengyilin-2411839
+             * 其中在请求结束后清除SecurityContextHolder中的SecurityContext的操作是必须的，
+             * 因为默认情况下SecurityContextHolder会把SecurityContext存储到ThreadLocal中，
+             * 而这个thread刚好是存在于servlet容器的线程池中的，如果不清除，当后续请求又从
+             * 线程池中分到这个线程时，程序就会拿到错误的认证信息
+             */
             SecurityContextHolder.clearContext();
 
             repository.saveContext(contextAfterChainExecution, holder.getRequest(), holder.getResponse());
@@ -66,6 +74,6 @@ public class SecurityContextPersistenceFilter extends GenericFilter {
     protected void genericInit() {
         super.genericInit();
         //可以实现权重赋值
-        this.weight = 0;
+        setWeight(0);
     }
 }
