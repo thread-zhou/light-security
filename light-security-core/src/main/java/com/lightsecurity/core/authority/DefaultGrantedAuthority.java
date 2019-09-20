@@ -1,5 +1,8 @@
-package com.lightsecurity.core;
+package com.lightsecurity.core.authority;
 
+import com.lightsecurity.core.DefaultPermission;
+import com.lightsecurity.core.GrantedAuthority;
+import com.lightsecurity.core.Permission;
 import org.springframework.util.Assert;
 
 public final class DefaultGrantedAuthority implements GrantedAuthority {

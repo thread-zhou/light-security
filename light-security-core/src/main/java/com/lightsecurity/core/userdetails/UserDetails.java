@@ -37,4 +37,21 @@ public interface UserDetails extends Serializable {
      */
     boolean isEnabled();
 
+    /**
+     * Indicates whether the user is locked or unlocked. A locked user cannot be
+     * authenticated.
+     *
+     * @return <code>true</code> if the user is not locked, <code>false</code> otherwise
+     */
+    boolean isAccountNonLocked();
+
+    /**
+     * Indicates whether the user's account has expired. An expired account cannot be
+     * authenticated.
+     *
+     * @return <code>true</code> if the user's account is valid (ie non-expired),
+     * <code>false</code> if no longer valid (ie expired)
+     */
+    boolean isAccountNonExpired();
+
 }

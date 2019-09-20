@@ -22,4 +22,6 @@ public interface Permission {
      * @return
      */
     boolean isEnabled();
+
+    int compareTo(Permission authority);
 }

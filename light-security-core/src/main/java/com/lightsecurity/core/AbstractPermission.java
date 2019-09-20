@@ -31,4 +31,9 @@ public abstract class AbstractPermission implements Permission {
     public boolean isEnabled() {
         return enabled;
     }
+
+    @Override
+    public int compareTo(Permission authority) {
+        return 0;
+    }
 }

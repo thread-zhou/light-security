@@ -11,6 +11,12 @@ public final class DefaultPermission extends AbstractPermission{
         this.permissionDesc = desc;
     }
 
+    public DefaultPermission(String pattern){
+        super(null, pattern, true);
+        this.permissionMethod = null;
+        this.permissionDesc = null;
+    }
+
 
     /**
      * 只会初始化父类中的属性，子类的为null
