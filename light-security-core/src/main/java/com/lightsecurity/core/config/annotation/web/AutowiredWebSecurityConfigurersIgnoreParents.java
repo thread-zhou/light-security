@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 收集WebSecurityConfigurer接口的实例类
+ */
 public class AutowiredWebSecurityConfigurersIgnoreParents {
 
     private final ConfigurableListableBeanFactory beanFactory;
@@ -19,6 +22,10 @@ public class AutowiredWebSecurityConfigurersIgnoreParents {
         this.beanFactory = beanFactory;
     }
 
+    /**
+     * 收集WebSecurityConfigurer接口的实例类
+     * @return List<SecurityConfigurer<Filter, WebSecurity>>
+     */
     public List<SecurityConfigurer<Filter, WebSecurity>> getWebSecurityConfigurers(){
         List<SecurityConfigurer<Filter, WebSecurity>> webSecurityConfigurers = new ArrayList<>();
         Map<String, WebSecurityConfigurer> beanOfType = beanFactory.getBeansOfType(WebSecurityConfigurer.class);

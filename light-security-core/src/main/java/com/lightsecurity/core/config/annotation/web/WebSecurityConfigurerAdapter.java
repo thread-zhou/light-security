@@ -35,7 +35,7 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 
     @Override
     public void init(WebSecurity builder) throws Exception {
-
+        logger.info("hello configurer init");
     }
 
     @Override
