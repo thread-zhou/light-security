@@ -29,10 +29,6 @@ public final class DefaultSecurityFilterChain implements SecurityFilterChain {
         this.filters = new ArrayList<Filter>(filters);//为什么这里还要新建一个ArrayList
     }
 
-    public static Logger getLogger() {
-        return logger;
-    }
-
     public RequestMatcher getRequestMatcher() {
         return requestMatcher;
     }

@@ -7,6 +7,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface RequestMatcher {
 
+    /**
+     * 根据当前request，找到合适的SecurityFilterChain
+     * 每个request最多只会经过一个SecurityFilterChain
+     * @param request
+     * @return
+     */
     boolean matches(HttpServletRequest request);
 
 }
