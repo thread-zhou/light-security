@@ -40,7 +40,6 @@ public class WebSecurityConfiguration {
 
     @Bean(name = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
     public Filter lightSecurityFilterChain() throws Exception{
-        //todo 完成FilterChainProxy的注册
         boolean hasConfigurers = webSecurityConfigurers != null && !webSecurityConfigurers.isEmpty();
         if (!hasConfigurers){
             WebSecurityConfigurerAdapter adapter = objectPostProcessor
