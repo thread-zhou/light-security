@@ -9,10 +9,12 @@ import com.lightsecurity.core.exception.AuthenticationException;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.target.LazyInitTargetSource;
 import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.Assert;
 
 import java.util.Arrays;
@@ -42,9 +44,31 @@ public class AuthenticationConfiguration {
         return new AuthenticationManagerBuilder(objectPostProcessor);
     }
 
+    @Autowired
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
+    @Autowired
+    public void setObjectPostProcessor(ObjectPostProcessor<Object> objectPostProcessor) {
+        this.objectPostProcessor = objectPostProcessor;
+    }
+
+    @Autowired(required = false)
+    public void setGlobalAuthenticationConfigurers(
+            List<GlobalAuthenticationConfigurerAdapter> configurers) throws Exception {
+        Collections.sort(configurers, AnnotationAwareOrderComparator.INSTANCE);
+        this.globalAuthConfigurers = configurers;
+    }
+
+    /**
+     * 创建authenticationManager
+     * @return
+     * @throws Exception
+     */
     public AuthenticationManager getAuthenticationManager() throws Exception{
         //todo 回顾本方法流程并理解
+        //如果已经初始化, 则直接返回authenticationManager
         if (this.authenticationManagerInitialized){
             return this.authenticationManager;
         }

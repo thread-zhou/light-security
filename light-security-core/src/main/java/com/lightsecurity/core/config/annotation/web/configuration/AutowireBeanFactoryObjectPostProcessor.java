@@ -15,6 +15,7 @@ final class AutowireBeanFactoryObjectPostProcessor implements ObjectPostProcesso
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final AutowireCapableBeanFactory autowireBeanFactory;
+    //关键属性
     private final List<SmartInitializingSingleton> smartSingletons = new ArrayList<SmartInitializingSingleton>();
     private final List<DisposableBean> disposableBeans = new ArrayList<DisposableBean>();
 
@@ -23,6 +24,12 @@ final class AutowireBeanFactoryObjectPostProcessor implements ObjectPostProcesso
         this.autowireBeanFactory = autowireBeanFactory;
     }
 
+    /**
+     * todo 进行该方法的深入理解（待办）
+     * @param object
+     * @param <O>
+     * @return
+     */
     @Override
     public <O> O postProcess(O object) {
         if (object == null) {
@@ -48,6 +55,9 @@ final class AutowireBeanFactoryObjectPostProcessor implements ObjectPostProcesso
         return result;
     }
 
+    /**
+     * 关键方法，进行注册类的初始化
+     */
     @Override
     public void afterSingletonsInstantiated() {
         if (logger.isDebugEnabled()){

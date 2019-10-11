@@ -1,10 +1,7 @@
 package com.lightsecurity.core.exception;
 
 /**
- * Thrown if an {@link UserDetailsService} implementation cannot locate a {@link User} by
- * its username.
- *
- * @author Ben Alex
+ * 如果{@link com.lightsecurity.core.userdetails.UserDetailsService}实现无法通过username定位一个User对象, 则抛出该异常
  */
 public class UsernameNotFoundException extends AuthenticationException {
     // ~ Constructors

@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 /**
  * spring boot内置tomcat加载ServletContext测试, 不推荐这种方式
  */
-@Configuration
+//@Configuration
 public class TestServletContextInitializer implements ServletContextInitializer {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());

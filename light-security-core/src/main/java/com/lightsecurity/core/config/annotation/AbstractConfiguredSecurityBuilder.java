@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBuilder<O>> extends AbstractSecurityBuilder<O> {
 
@@ -24,10 +21,23 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
 
     private ObjectPostProcessor<Object> objectPostProcessor;
 
+    private final Map<Class<? extends Object>, Object> sharedObjects = new HashMap<>();
+
+    public Map<Class<? extends Object>, Object> getSharedObjects() {
+        return Collections.unmodifiableMap(this.sharedObjects);
+    }
+
+
+    public <C> C getSharedObject(Class<C> sharedType) {
+        return (C) this.sharedObjects.get(sharedType);
+    }
+
     public <C extends SecurityConfigurer<O, B>> C apply(C configurer) throws Exception{
         add(configurer);
         return configurer;
     }
+
+
     private <C extends SecurityConfigurer<O, B>> void add(C configurer) throws Exception{
         Assert.notNull(configurer, "configurer cannot be null");
 
@@ -59,11 +69,16 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
         this.allowConfigurersOfSameType = allowConfigurersOfSameType;
     }
 
+    /**
+     * 此处O类型为Filter类型, 由WebSecurity决定
+     * @return
+     * @throws Exception
+     */
     @Override
     protected O doBuild() throws Exception {
         synchronized (configurers){
             buildState = BuildState.INITIALIZING;
-            beforeInit();
+            beforeInit();//空实现, 子类重写后可以实现挂接
             init();
 
             buildState = BuildState.CONFIGURING;

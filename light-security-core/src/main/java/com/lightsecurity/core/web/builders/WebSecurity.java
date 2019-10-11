@@ -5,6 +5,7 @@ import com.lightsecurity.core.config.annotation.ObjectPostProcessor;
 import com.lightsecurity.core.config.annotation.SecurityBuilder;
 import com.lightsecurity.core.filter.DefaultSecurityFilterChain;
 import com.lightsecurity.core.filter.FilterChainProxy;
+import com.lightsecurity.core.filter.FilterSecurityInterceptor;
 import com.lightsecurity.core.filter.SecurityFilterChain;
 import com.lightsecurity.core.util.matcher.RequestMatcher;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ public final class WebSecurity extends AbstractConfiguredSecurityBuilder<Filter,
     private List<RequestMatcher> ignoredRequests = new ArrayList<>();
 
     private final List<SecurityBuilder<? extends SecurityFilterChain>> securityFilterChainBuilders =  new ArrayList<>();
+
+    private FilterSecurityInterceptor filterSecurityInterceptor;
 
     private Runnable postBuildAction =  new Runnable() {
         @Override
@@ -53,7 +56,7 @@ public final class WebSecurity extends AbstractConfiguredSecurityBuilder<Filter,
 
         //创建FilterChainProxy
         FilterChainProxy filterChainProxy = new FilterChainProxy(securityFilterChains);
-        filterChainProxy.afterPropertiesSet();
+        filterChainProxy.afterPropertiesSet();//进行securityFilterChains的检查
 
         Filter result = filterChainProxy;
 
@@ -64,6 +67,21 @@ public final class WebSecurity extends AbstractConfiguredSecurityBuilder<Filter,
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
+    }
+
+    public WebSecurity addSecurityFilterChainBuilder(SecurityBuilder<? extends SecurityFilterChain> securityFilterChainBuilder){
+        this.securityFilterChainBuilders.add(securityFilterChainBuilder);
+        return this;
+    }
+
+    public WebSecurity postBuildAction(Runnable postBuildAction) {
+        this.postBuildAction = postBuildAction;
+        return this;
+    }
+
+    public WebSecurity securityInterceptor(FilterSecurityInterceptor securityInterceptor) {
+        this.filterSecurityInterceptor = securityInterceptor;
+        return this;
     }
 
 }

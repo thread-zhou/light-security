@@ -35,13 +35,18 @@ public class WebSecurityConfiguration {
 
     private List<SecurityConfigurer<Filter, WebSecurity>> webSecurityConfigurers;
 
+    /**
+     * 注入{@link com.lightsecurity.core.config.annotation.web.configuration.ObjectPostProcessorConfiguration}中注册的<code>ObjectPostProcessor</code>
+     */
     @Autowired(required = false)
     private ObjectPostProcessor<Object> objectPostProcessor;
 
     @Bean(name = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
     public Filter lightSecurityFilterChain() throws Exception{
         boolean hasConfigurers = webSecurityConfigurers != null && !webSecurityConfigurers.isEmpty();
+        //如果webSecurityConfigurers为空, 则会创建默认的配置器
         if (!hasConfigurers){
+            //WebSecurityConfigurerAdapter匿名内部类实现
             WebSecurityConfigurerAdapter adapter = objectPostProcessor
                     .postProcess(new WebSecurityConfigurerAdapter() {
 
