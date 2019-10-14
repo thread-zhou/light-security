@@ -27,6 +27,9 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
         return Collections.unmodifiableMap(this.sharedObjects);
     }
 
+    public <C> void setSharedObject(Class<C> sharedType, C object) {
+        this.sharedObjects.put(sharedType, object);
+    }
 
     public <C> C getSharedObject(Class<C> sharedType) {
         return (C) this.sharedObjects.get(sharedType);
@@ -63,11 +66,60 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
         this(objectPostProcessor, false);
     }
 
+
     protected AbstractConfiguredSecurityBuilder(ObjectPostProcessor<Object> objectPostProcessor, boolean allowConfigurersOfSameType){
         Assert.notNull(objectPostProcessor, "objectPostProcessor cannot be null");
         this.objectPostProcessor = objectPostProcessor;
         this.allowConfigurersOfSameType = allowConfigurersOfSameType;
     }
+
+    /**
+     * 删除所有通过类名找到的{@link SecurityConfigurer}实例, 如果找不到则返回空数组。 请注意，不考虑对象层次结构。
+     * @param clazz
+     * @param <C>
+     * @return
+     */
+    public <C extends SecurityConfigurer<O, B>> List<C> removeConfigurers(Class<C> clazz) {
+        List<C> configs = (List<C>) this.configurers.remove(clazz);
+        if (configs == null) {
+            return new ArrayList<C>();
+        }
+        return new ArrayList<C>(configs);
+    }
+
+    /**
+     * 通过其类名或未找到的空列表获取所有{@link SecurityConfigurer}实例。 请注意，不考虑对象层次结构
+     * @param clazz
+     * @param <C>
+     * @return
+     */
+    public <C extends SecurityConfigurer<O, B>> List<C> getConfigurers(Class<C> clazz) {
+        List<C> configs = (List<C>) this.configurers.get(clazz);
+        if (configs == null) {
+            return new ArrayList<C>();
+        }
+        return new ArrayList<C>(configs);
+    }
+
+
+    /**
+     * 通过其类名获取{@link SecurityConfigurer}；如果未找到，则获取<code> null </ code>。 请注意，不考虑对象层次结构
+     * @param clazz
+     * @param <C>
+     * @return
+     */
+    public <C extends SecurityConfigurer<O, B>> C getConfigurer(Class<C> clazz) {
+        List<SecurityConfigurer<O, B>> configs = this.configurers.get(clazz);
+        if (configs == null) {
+            return null;
+        }
+        if (configs.size() != 1) {
+            throw new IllegalStateException("Only one configurer expected for type "
+                    + clazz + ", but got " + configs);
+        }
+        return (C) configs.get(0);
+    }
+
 
     /**
      * 此处O类型为Filter类型, 由WebSecurity决定
