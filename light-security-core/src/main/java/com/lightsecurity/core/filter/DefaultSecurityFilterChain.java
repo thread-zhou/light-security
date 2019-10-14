@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * 参考 Spring Security 中 DefaultSecurityFilterChain 实现
+ *
+ * 默认过滤器链实现
  */
 public final class DefaultSecurityFilterChain implements SecurityFilterChain {
 
@@ -33,6 +35,11 @@ public final class DefaultSecurityFilterChain implements SecurityFilterChain {
         return requestMatcher;
     }
 
+    /**
+     * 用于判断当前请求是否可以使用当前过滤器链
+     * @param request
+     * @return
+     */
     @Override
     public boolean matches(HttpServletRequest request) {
         return requestMatcher.matches(request);

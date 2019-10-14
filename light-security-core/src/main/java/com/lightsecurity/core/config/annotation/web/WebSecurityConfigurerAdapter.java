@@ -221,13 +221,23 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
         });
     }
 
+    /**
+     * 重写此方法以配置{@link WebSecurity}. 例如, 如果您希望忽略某些请求
+     * 目前是一个空实现
+     * @param builder
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity builder) throws Exception {
-        //todo 完成configure(WebSecurity builder)方法
     }
 
     /**
-     * 这里进行HTTPSecurity的默认配置, 子类可以覆盖该方法
+     * 重写此方法已配置{@link HttpSecurity}.
+     * 通常, 子类不应通过调用super来调用此方法, 因为可能会覆盖其配置
+     * 其默认配置为:
+     * <pre>
+     * http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();
+     * </pre>
      * @param httpSecurity
      * @throws Exception
      */

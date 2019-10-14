@@ -84,7 +84,7 @@ public class WebSecurityConfiguration {
         //对webSecurityConfigurers进行排序
         Collections.sort(webSecurityConfigurers, AnnotationAwareOrderComparator.INSTANCE);
 
-        //对Order进行比较是否存在相同的,如此简单的比较实在经过排序的前提下进行的
+        //对Order进行比较是否存在相同的,如此简单的比较是在经过排序的前提下进行的
         Integer previousOrder = null;
         Object previousConfig = null;
         for (SecurityConfigurer<Filter, WebSecurity> config : webSecurityConfigurers){
