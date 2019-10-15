@@ -42,6 +42,9 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
 
     private ApplicationContext applicationContext;
 
+    /**
+     * 是否启用默认配置: true表示禁用默认配置, false表示启用默认配置
+     */
     private boolean disableDefaults;
 
     private AuthenticationConfiguration authenticationConfiguration;
@@ -63,6 +66,23 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
     private boolean authenticationManagerInitialized;
 
     private boolean disableLocalConfigureAuthenticationBuilder;
+
+
+    /**
+     * 使用缺省配置创建实例
+     */
+    protected WebSecurityConfigurerAdapter() {
+        this(false);
+    }
+
+    /**
+     * 创建一个实例, 这里提供指定是否应用默认配置
+     * 禁用默认配置被认为是更高级的用法, 因为这需要对框架的实现方式有更多的了解
+     * @param disableDefaults true表示禁用默认配置, false表示启用默认配置
+     */
+    protected WebSecurityConfigurerAdapter(boolean disableDefaults) {
+        this.disableDefaults = disableDefaults;
+    }
 
 
     @Autowired
@@ -104,14 +124,6 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
         }
     };
 
-    protected WebSecurityConfigurerAdapter() {
-        this(false);
-    }
-
-    protected WebSecurityConfigurerAdapter(boolean disableDefaults) {
-        this.disableDefaults = disableDefaults;
-    }
-
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         this.disableLocalConfigureAuthenticationBuilder = true;
@@ -141,9 +153,12 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
         Map<Class<? extends Object>, Object> sharedObjects = createSharedObjects();
         httpSecurity = new HttpSecurity(objectPostProcessor, authenticationManagerBuilder, sharedObjects);
 
+        //disableDefaults  为true表示禁用默认配置, 反之表示使用默认配置
         if (!disableDefaults){
             //这里也是httpSecurity的默认配置, 但是存在开启条件--> disableDefaults
 
+            httpSecurity.cors().and()
+                    .securityContext();
 //            http
 //                    .csrf().and()
 //                    .addFilter(new WebAsyncManagerIntegrationFilter())
@@ -244,7 +259,8 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //todo 完成configure(HttpSecurity http)方法
         logger.debug("Using default configure(HttpSecurity). If subclassed this will potentially override subclass configure(HttpSecurity).");
-//        httpSecurity.apply()
+
+        httpSecurity.cors();
     }
 
     static final class UserDetailsServiceDelegator implements UserDetailsService {

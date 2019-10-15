@@ -24,9 +24,15 @@ public class CorsConfigurer<H extends HttpSecurityBuilder<H>> extends AbstractHt
     }
 
     @Override
-    public void configure(H builder) throws Exception {
-        ApplicationContext context = builder.getSharedObject(ApplicationContext.class);
+    public void configure(H http) throws Exception {
+        ApplicationContext context = http.getSharedObject(ApplicationContext.class);
         CorsFilter corsFilter = getCorsFilter(context);
+        if (corsFilter == null) {
+            throw new IllegalStateException(
+                    "Please configure either a " + CORS_FILTER_BEAN_NAME + " bean or a "
+                            + CORS_CONFIGURATION_SOURCE_BEAN_NAME + "bean.");
+        }
+        http.addFilter(corsFilter);
     }
 
     private CorsFilter getCorsFilter(ApplicationContext context) {
@@ -61,7 +67,7 @@ public class CorsConfigurer<H extends HttpSecurityBuilder<H>> extends AbstractHt
          * @return
          */
         private static CorsFilter getMvcCorsFilter(ApplicationContext context) {
-            //todo
+            //todo 修改过时方法
             HandlerMappingIntrospector mappingIntrospector = new HandlerMappingIntrospector(
                     context);
             return new CorsFilter(mappingIntrospector);
