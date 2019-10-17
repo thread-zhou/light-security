@@ -3,5 +3,7 @@
 
 build/
 
+.gradle/
+
 ##ignore this file##
 *.iml
