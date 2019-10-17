@@ -260,7 +260,7 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
         //todo 完成configure(HttpSecurity http)方法
         logger.debug("Using default configure(HttpSecurity). If subclassed this will potentially override subclass configure(HttpSecurity).");
 
-        httpSecurity.cors();
+//        httpSecurity.cors();
     }
 
     static final class UserDetailsServiceDelegator implements UserDetailsService {

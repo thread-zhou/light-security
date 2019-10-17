@@ -51,13 +51,16 @@ public class HttpSessionSecurityContextRepository implements SecurityContextRepo
         final boolean debug = logger.isDebugEnabled();
         boolean session_existed = true;//session中的SecurityContext是否存在
         HttpSession session = request.getSession(false);
+        Object context = null;
         if (null == session){
             if (debug){
                 logger.debug("当前HttpSession不存在");
             }
             session_existed = false;
+        }else {
+            context = session.getAttribute(lightSecurityContextKey);
         }
-        Object context = session.getAttribute(lightSecurityContextKey);
+
 
         /**
          * 如果当前请求获取的session不存在或者当前请求的session中获取到的内容为null

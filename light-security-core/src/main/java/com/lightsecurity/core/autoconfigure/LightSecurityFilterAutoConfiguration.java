@@ -2,8 +2,13 @@ package com.lightsecurity.core.autoconfigure;
 
 import com.lightsecurity.core.properties.SecurityProperties;
 import com.lightsecurity.core.web.context.AbstractSecurityWebApplicationInitializer;
+import com.sun.org.apache.xerces.internal.parsers.SecurityConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +19,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Configuration
-public class LightSecurityAutoConfiguration {
+@ConditionalOnWebApplication
+@EnableConfigurationProperties
+@ConditionalOnClass({AbstractSecurityWebApplicationInitializer.class})
+@AutoConfigureAfter(SecurityConfiguration.class)
+public class LightSecurityFilterAutoConfiguration {
 
     private static final String DEFAULT_FILTER_NAME = AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME;
 
