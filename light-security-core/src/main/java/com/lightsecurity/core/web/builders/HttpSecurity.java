@@ -121,6 +121,7 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
 
     @Override
     protected DefaultSecurityFilterChain performBuild() throws Exception {
+        //使用FilterComparator进行Filter的排序
         Collections.sort(filters, comparator);
         return new DefaultSecurityFilterChain(requestMatcher, filters);
     }

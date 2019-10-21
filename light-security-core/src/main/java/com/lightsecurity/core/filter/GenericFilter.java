@@ -1,5 +1,7 @@
 package com.lightsecurity.core.filter;
 
+import com.lightsecurity.core.util.matcher.AntPathRequestMatcher;
+import com.lightsecurity.core.util.matcher.RequestMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,24 +22,14 @@ public abstract class GenericFilter implements Filter, FilterConfig, Initializin
 
     protected volatile FilterConfig filterConfig;
 
-    protected int weight;//当前过滤器的权重
+    private RequestMatcher requestMatcher;//当前过滤器作用的url封装
 
-    protected String[] processUrl;//当前过滤器作用的url
-
-    public int getWeight() {
-        return weight;
+    public RequestMatcher getRequestMatcher() {
+        return requestMatcher;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public String[] getProcessUrl() {
-        return processUrl;
-    }
-
-    public void setProcessUrl(String[] processUrl) {
-        this.processUrl = processUrl;
+    protected void setRequestMatcher(RequestMatcher requestMatcher) {
+        this.requestMatcher = requestMatcher;
     }
 
     /**
@@ -45,6 +37,10 @@ public abstract class GenericFilter implements Filter, FilterConfig, Initializin
      */
     protected void genericInit(){
 
+    }
+
+    protected void setFilterProcessUrl(String filterProcessUrl){
+        this.setRequestMatcher(new AntPathRequestMatcher(filterProcessUrl));
     }
 
     public String getInitParameter(String name) {
