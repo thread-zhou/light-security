@@ -21,6 +21,7 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
     private String passwordParameter = LIGHT_SECURITY_FORM_PASSWORD_KEY;
     private boolean postOnly = true;
 
+
     public UsernamePasswordAuthenticationFilter() {
         super(new AntPathRequestMatcher("/login", "POST"));
     }
@@ -45,7 +46,17 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
         //发起请求组装的token
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
+        // Allow subclasses to set the "details" property
+        setDetails(request, authenticationToken);
         return getAuthenticationManager().authenticate(authenticationToken);//这里开始真实认证过程, 使用ProviderManager进行代理
+    }
+
+    public void setUsernameParameter(String usernameParameter) {
+        this.usernameParameter = usernameParameter;
+    }
+
+    public void setPasswordParameter(String passwordParameter) {
+        this.passwordParameter = passwordParameter;
     }
 
     protected String obtainUsername(HttpServletRequest request){
@@ -58,6 +69,7 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
 
     protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken token){
         //todo
+        token.setDetails(authenticationDetailsSource.bindDetails(request));
     }
 
 }

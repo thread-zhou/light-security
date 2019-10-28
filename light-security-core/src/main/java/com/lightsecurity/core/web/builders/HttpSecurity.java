@@ -1,7 +1,8 @@
 package com.lightsecurity.core.web.builders;
 
+import com.lightsecurity.core.authentication.AuthenticationManager;
+import com.lightsecurity.core.authentication.AuthenticationProvider;
 import com.lightsecurity.core.authority.AuthenticationManagerBuilder;
-import com.lightsecurity.core.authority.AuthenticationProvider;
 import com.lightsecurity.core.config.annotation.*;
 import com.lightsecurity.core.config.annotation.web.HttpSecurityBuilder;
 import com.lightsecurity.core.filter.DefaultSecurityFilterChain;
@@ -9,6 +10,7 @@ import com.lightsecurity.core.userdetails.UserDetailsService;
 import com.lightsecurity.core.util.matcher.AnyRequestMatcher;
 import com.lightsecurity.core.util.matcher.RequestMatcher;
 import com.lightsecurity.core.web.configurers.CorsConfigurer;
+import com.lightsecurity.core.web.configurers.FormLoginConfigurer;
 import com.lightsecurity.core.web.configurers.SecurityContextConfigurer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
@@ -69,6 +71,12 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
         return getOrApply(new CorsConfigurer<HttpSecurity>());
     }
 
+
+    public FormLoginConfigurer<HttpSecurity> formLogin() throws Exception {
+        return getOrApply(new FormLoginConfigurer<HttpSecurity>());
+    }
+
+
     public SecurityContextConfigurer<HttpSecurity> securityContext()throws Exception{
         return getOrApply(new SecurityContextConfigurer<HttpSecurity>());
     }
@@ -118,6 +126,10 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
         return this;
     }
 
+    @Override
+    protected void beforeConfigure() throws Exception {
+        setSharedObject(AuthenticationManager.class, getAuthenticationRegistry().build());
+    }
 
     @Override
     protected DefaultSecurityFilterChain performBuild() throws Exception {

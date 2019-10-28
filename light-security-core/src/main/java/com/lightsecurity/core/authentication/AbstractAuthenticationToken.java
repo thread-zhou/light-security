@@ -49,6 +49,10 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
         return details;
     }
 
+    public void setDetails(Object details) {
+        this.details = details;
+    }
+
     @Override
     public Object getPrincipal() {
         return null;

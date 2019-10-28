@@ -1,6 +1,6 @@
 package com.lightsecurity.core.config.annotation.web;
 
-import com.lightsecurity.core.authority.AuthenticationProvider;
+import com.lightsecurity.core.authentication.AuthenticationProvider;
 import com.lightsecurity.core.config.annotation.SecurityBuilder;
 import com.lightsecurity.core.config.annotation.SecurityConfigurer;
 import com.lightsecurity.core.filter.DefaultSecurityFilterChain;

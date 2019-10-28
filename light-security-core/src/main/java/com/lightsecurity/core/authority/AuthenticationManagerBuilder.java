@@ -1,15 +1,15 @@
 package com.lightsecurity.core.authority;
 
-import com.lightsecurity.core.authentication.AuthenticationEventPublisher;
-import com.lightsecurity.core.authentication.AuthenticationManager;
-import com.lightsecurity.core.authentication.ProviderManager;
-import com.lightsecurity.core.authentication.ProviderManagerBuilder;
+import com.lightsecurity.core.authentication.*;
 import com.lightsecurity.core.config.annotation.AbstractConfiguredSecurityBuilder;
 import com.lightsecurity.core.config.annotation.ObjectPostProcessor;
 import com.lightsecurity.core.userdetails.UserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticationManagerBuilder extends AbstractConfiguredSecurityBuilder<AuthenticationManager, AuthenticationManagerBuilder> implements ProviderManagerBuilder<AuthenticationManagerBuilder> {
 
@@ -23,6 +23,8 @@ public class AuthenticationManagerBuilder extends AbstractConfiguredSecurityBuil
 
     private UserDetailsService defaultUserDetailsService;
 
+    private List<com.lightsecurity.core.authentication.AuthenticationProvider> authenticationProviders = new ArrayList<>();
+
     public AuthenticationManagerBuilder(ObjectPostProcessor<Object> objectPostProcessor) {
         super(objectPostProcessor);
     }
@@ -35,20 +37,38 @@ public class AuthenticationManagerBuilder extends AbstractConfiguredSecurityBuil
         return this;
     }
 
+    public boolean isConfigured(){
+        return !authenticationProviders.isEmpty() || parentAuthenticationManager != null;
+    }
+
     public UserDetailsService getDefaultUserDetailsService() {
         return this.defaultUserDetailsService;
     }
 
     @Override
-    protected AuthenticationManager performBuild() throws Exception {
-        //todo
-        return null;
+    public AuthenticationManagerBuilder authenticationProvider(AuthenticationProvider authenticationProvider){
+        this.authenticationProviders.add(authenticationProvider);
+        return this;
     }
 
     @Override
-    public AuthenticationManagerBuilder authenticationProvider(AuthenticationProvider authenticationProvider) {
-        return null;
+    protected AuthenticationManager performBuild() throws Exception {
+        //todo
+        if (!isConfigured()){
+            logger.debug("No authenticationProviders and no parentAuthenticationManager defined. Returning null.");
+            return null;
+        }
+        ProviderManager providerManager = new ProviderManager(authenticationProviders, parentAuthenticationManager);
+        if (eraseCredentials != null){
+            providerManager.setEraseCredentialsAfterAuthentication(eraseCredentials);
+        }
+        if (eventPublisher != null){
+            providerManager.setEventPublisher(eventPublisher);
+        }
+        providerManager = postProcess(providerManager);
+        return providerManager;
     }
+
 
     //todo 完成AuthenticationManagerBuilder的编写
 

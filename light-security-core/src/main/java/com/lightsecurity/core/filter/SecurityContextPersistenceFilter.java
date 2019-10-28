@@ -73,7 +73,5 @@ public class SecurityContextPersistenceFilter extends GenericFilter {
     @Override
     protected void genericInit() {
         super.genericInit();
-        //可以实现权重赋值
-        setWeight(0);
     }
 }

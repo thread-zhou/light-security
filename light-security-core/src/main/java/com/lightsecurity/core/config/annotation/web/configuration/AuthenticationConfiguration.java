@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * 也是一个bean注册中心
+ */
 @Import({ObjectPostProcessorConfiguration.class})
 @Configuration
 public class AuthenticationConfiguration {
@@ -44,6 +47,26 @@ public class AuthenticationConfiguration {
         return new AuthenticationManagerBuilder(objectPostProcessor);
     }
 
+    /**
+     * 用于创建<code>DaoAuthenticationProvider</code>
+     * @param context
+     * @return
+     */
+    @Bean
+    public static InitializeUserDetailsBeanManagerConfigurer initializeUserDetailsBeanManagerConfigurer(ApplicationContext context){
+        return new InitializeUserDetailsBeanManagerConfigurer(context);
+    }
+
+    /**
+     * 用于创建<code>AuthenticationProvider</code>
+     * @param context
+     * @return 但是默认情况下返回null
+     */
+    @Bean
+    public static InitializeAuthenticationProviderBeanManagerConfigurer initializeAuthenticationProviderBeanManagerConfigurer(ApplicationContext context){
+        return new InitializeAuthenticationProviderBeanManagerConfigurer(context);
+    }
+
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -54,9 +77,13 @@ public class AuthenticationConfiguration {
         this.objectPostProcessor = objectPostProcessor;
     }
 
+    /**
+     * 该参数是进行<code>GlobalAuthenticationConfigurerAdapter</code>的spring托管的实现类的实例对象
+     * @param configurers
+     * @throws Exception
+     */
     @Autowired(required = false)
-    public void setGlobalAuthenticationConfigurers(
-            List<GlobalAuthenticationConfigurerAdapter> configurers) throws Exception {
+    public void setGlobalAuthenticationConfigurers(List<GlobalAuthenticationConfigurerAdapter> configurers) throws Exception {
         Collections.sort(configurers, AnnotationAwareOrderComparator.INSTANCE);
         this.globalAuthConfigurers = configurers;
     }

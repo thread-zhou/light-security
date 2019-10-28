@@ -139,7 +139,6 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
         if (httpSecurity != null){
             return httpSecurity;
         }
-        //todo 完成httpSecurity的创建
         //创建默认的时间发布类对象
         DefaultAuthenticationEventPublisher eventPublisher = objectPostProcessor.postProcess(new DefaultAuthenticationEventPublisher());
 
@@ -158,7 +157,8 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
             //这里也是httpSecurity的默认配置, 但是存在开启条件--> disableDefaults
 
             httpSecurity.cors().and()
-                    .securityContext();
+                    .securityContext().and()
+                    .formLogin();
 //            http
 //                    .csrf().and()
 //                    .addFilter(new WebAsyncManagerIntegrationFilter())

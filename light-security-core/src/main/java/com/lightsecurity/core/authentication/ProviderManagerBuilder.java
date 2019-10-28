@@ -1,6 +1,5 @@
 package com.lightsecurity.core.authentication;
 
-import com.lightsecurity.core.authority.AuthenticationProvider;
 import com.lightsecurity.core.config.annotation.SecurityBuilder;
 
 /**

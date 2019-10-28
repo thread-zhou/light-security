@@ -1,6 +1,7 @@
 package com.lightsecurity.core.web.builders;
 
 import com.lightsecurity.core.filter.SecurityContextPersistenceFilter;
+import com.lightsecurity.core.filter.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.Filter;
@@ -24,6 +25,7 @@ final public class FilterComparator implements Comparator<Filter>, Serializable 
         order += STEP;//每个既定Filter之间步长为100
         put(CorsFilter.class, order);
         order += STEP;
+        put(UsernamePasswordAuthenticationFilter.class, order);
     }
 
     @Override

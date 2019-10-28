@@ -220,6 +220,10 @@ public abstract class AbstractConfiguredSecurityBuilder<O, B extends SecurityBui
      */
     protected abstract O performBuild() throws Exception;
 
+    protected <P> P postProcess(P object){
+        return this.objectPostProcessor.postProcess(object);
+    }
+
     private static enum BuildState {
         /**
          * This is the state before the {@link Builder#build()} is invoked
