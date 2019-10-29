@@ -5,10 +5,12 @@ import com.lightsecurity.core.authentication.AuthenticationProvider;
 import com.lightsecurity.core.authority.AuthenticationManagerBuilder;
 import com.lightsecurity.core.config.annotation.*;
 import com.lightsecurity.core.config.annotation.web.HttpSecurityBuilder;
+import com.lightsecurity.core.filter.AnonymousAuthenticationFilter;
 import com.lightsecurity.core.filter.DefaultSecurityFilterChain;
 import com.lightsecurity.core.userdetails.UserDetailsService;
 import com.lightsecurity.core.util.matcher.AnyRequestMatcher;
 import com.lightsecurity.core.util.matcher.RequestMatcher;
+import com.lightsecurity.core.web.configurers.AnonymousConfigurer;
 import com.lightsecurity.core.web.configurers.CorsConfigurer;
 import com.lightsecurity.core.web.configurers.FormLoginConfigurer;
 import com.lightsecurity.core.web.configurers.SecurityContextConfigurer;
@@ -65,20 +67,42 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
     }
 
 
-
-
+    /**
+     * 跨域访问配置器, 在这里并没有进行允许跨域访问的配置
+     * @return
+     * @throws Exception
+     */
     public CorsConfigurer<HttpSecurity> cors() throws Exception{
         return getOrApply(new CorsConfigurer<HttpSecurity>());
     }
 
 
+    /**
+     * 表单登录配置器
+     * @return
+     * @throws Exception
+     */
     public FormLoginConfigurer<HttpSecurity> formLogin() throws Exception {
         return getOrApply(new FormLoginConfigurer<HttpSecurity>());
     }
 
 
-    public SecurityContextConfigurer<HttpSecurity> securityContext()throws Exception{
+    /**
+     * SecurityContextPersistenceFilter配置器
+     * @return
+     * @throws Exception
+     */
+    public SecurityContextConfigurer<HttpSecurity> securityContext()throws Exception {
         return getOrApply(new SecurityContextConfigurer<HttpSecurity>());
+    }
+
+    /**
+     * 匿名过滤器配置器
+     * @return
+     * @throws Exception
+     */
+    public AnonymousConfigurer<HttpSecurity> anonymous() throws Exception {
+        return getOrApply(new AnonymousConfigurer<HttpSecurity>());
     }
 
     @Override

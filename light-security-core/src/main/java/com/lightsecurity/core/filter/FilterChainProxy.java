@@ -47,6 +47,7 @@ public class FilterChainProxy extends GenericFilter{
         try {
             doFilterInternal(request, response, chain);
         }finally {
+            //重点
             SecurityContextHolder.clearContext();
         }
     }

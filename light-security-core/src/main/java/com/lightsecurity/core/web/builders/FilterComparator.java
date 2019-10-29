@@ -1,5 +1,6 @@
 package com.lightsecurity.core.web.builders;
 
+import com.lightsecurity.core.filter.AnonymousAuthenticationFilter;
 import com.lightsecurity.core.filter.SecurityContextPersistenceFilter;
 import com.lightsecurity.core.filter.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
@@ -26,6 +27,8 @@ final public class FilterComparator implements Comparator<Filter>, Serializable 
         put(CorsFilter.class, order);
         order += STEP;
         put(UsernamePasswordAuthenticationFilter.class, order);
+        order += STEP;
+        put(AnonymousAuthenticationFilter.class, order);
     }
 
     @Override
