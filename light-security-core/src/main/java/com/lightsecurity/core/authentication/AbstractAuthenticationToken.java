@@ -4,7 +4,9 @@ import com.lightsecurity.core.Authentication;
 import com.lightsecurity.core.CredentialsContainer;
 import com.lightsecurity.core.GrantedAuthority;
 import com.lightsecurity.core.authority.AuthorityUtils;
+import com.lightsecurity.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,10 +41,6 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
         return null;
     }
 
-    @Override
-    public Object getCredentials() {
-        return null;
-    }
 
     @Override
     public Object getDetails() {
@@ -53,10 +51,6 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
         this.details = details;
     }
 
-    @Override
-    public Object getPrincipal() {
-        return null;
-    }
 
     @Override
     public boolean isAuthenticated() {
@@ -70,7 +64,15 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
 
     @Override
     public String getName() {
-        return null;
+        if (this.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) this.getPrincipal()).getUsername();
+        }
+
+        if (getPrincipal() instanceof Principal) {
+            return ((Principal) getPrincipal()).getName();
+        }
+
+        return (this.getPrincipal() == null) ? "" : this.getPrincipal().toString();
     }
 
     @Override

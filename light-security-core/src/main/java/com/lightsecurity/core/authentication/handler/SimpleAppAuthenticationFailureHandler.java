@@ -16,6 +16,6 @@ public class SimpleAppAuthenticationFailureHandler extends AbstractAuthenticatio
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("认证失败");
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(exception));
+        response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
     }
 }

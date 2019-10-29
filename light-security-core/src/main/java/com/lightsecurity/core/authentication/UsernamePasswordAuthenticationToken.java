@@ -37,6 +37,11 @@ public class UsernamePasswordAuthenticationToken extends AbstractAuthenticationT
     }
 
     @Override
+    public Object getCredentials() {
+        return this.credential;
+    }
+
+    @Override
     public Object getPrincipal() {
         return principal;
     }

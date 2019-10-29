@@ -1,10 +1,10 @@
 package com.lightsecurity.core.config.annotation.web.configuration;
 
 import com.lightsecurity.core.authentication.dao.DaoAuthenticationProvider;
-import com.lightsecurity.core.authentication.encoding.PasswordEncoder;
 import com.lightsecurity.core.authority.AuthenticationManagerBuilder;
 import com.lightsecurity.core.config.GlobalAuthenticationConfigurerAdapter;
 import com.lightsecurity.core.userdetails.UserDetailsService;
+import com.lightsecurity.core.util.PasswordEncoder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
