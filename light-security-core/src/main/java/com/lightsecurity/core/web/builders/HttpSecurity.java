@@ -10,10 +10,7 @@ import com.lightsecurity.core.filter.DefaultSecurityFilterChain;
 import com.lightsecurity.core.userdetails.UserDetailsService;
 import com.lightsecurity.core.util.matcher.AnyRequestMatcher;
 import com.lightsecurity.core.util.matcher.RequestMatcher;
-import com.lightsecurity.core.web.configurers.AnonymousConfigurer;
-import com.lightsecurity.core.web.configurers.CorsConfigurer;
-import com.lightsecurity.core.web.configurers.FormLoginConfigurer;
-import com.lightsecurity.core.web.configurers.SecurityContextConfigurer;
+import com.lightsecurity.core.web.configurers.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
@@ -103,6 +100,15 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
      */
     public AnonymousConfigurer<HttpSecurity> anonymous() throws Exception {
         return getOrApply(new AnonymousConfigurer<HttpSecurity>());
+    }
+
+    /**
+     * 异常转换过滤器
+     * @return
+     * @throws Exception
+     */
+    public ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling() throws Exception {
+        return getOrApply(new ExceptionHandlingConfigurer<HttpSecurity>());
     }
 
     @Override

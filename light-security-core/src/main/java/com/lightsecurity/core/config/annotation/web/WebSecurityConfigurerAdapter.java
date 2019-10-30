@@ -159,7 +159,8 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
             httpSecurity.cors().and()
                     .securityContext().and()
                     .formLogin().and()
-                    .anonymous();
+                    .anonymous().and()
+                    .exceptionHandling();
 //            http
 //                    .csrf().and()
 //                    .addFilter(new WebAsyncManagerIntegrationFilter())
