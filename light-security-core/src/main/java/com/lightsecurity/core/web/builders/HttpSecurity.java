@@ -111,6 +111,13 @@ public final class HttpSecurity extends AbstractConfiguredSecurityBuilder<Defaul
         return getOrApply(new ExceptionHandlingConfigurer<HttpSecurity>());
     }
 
+    public ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests()
+            throws Exception {
+        ApplicationContext context = getContext();
+        return getOrApply(new ExpressionUrlAuthorizationConfigurer<HttpSecurity>(context))
+                .getRegistry();
+    }
+
     @Override
     public <C> void setSharedObject(Class<C> sharedType, C object){
         super.setSharedObject(sharedType, object);

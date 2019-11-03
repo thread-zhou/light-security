@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.SpringFactoriesLoader;
+import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.accept.ContentNegotiationStrategy;
@@ -160,7 +161,8 @@ public abstract class WebSecurityConfigurerAdapter implements WebSecurityConfigu
                     .securityContext().and()
                     .formLogin().and()
                     .anonymous().and()
-                    .exceptionHandling();
+                    .exceptionHandling().and()
+                    .authorizeRequests().antMatchers(HttpMethod.GET, "/**/*.js").permitAll();// TODO: 2019/11/3 探索authorizeRequests的內部实现 
 //            http
 //                    .csrf().and()
 //                    .addFilter(new WebAsyncManagerIntegrationFilter())
